@@ -1,0 +1,83 @@
+/* Global */
+body {
+    margin: 0;
+    font-family: "Helvetica Neue", Helvetica, sans-serif;
+    font-size: .95em;
+    background: #303748;
+}
+.page {
+    position: relative;
+    z-index: 10;
+}
+body:after {
+    content: "";
+    position: fixed;
+    bottom: -33%;
+    left: 0;
+    z-index: 5;
+    width: 100%;
+    height: 66%;
+    background: #ff5a60;
+    transform: skew(0, -8deg);
+}
+.clear {
+    clear: both;
+}
+#main {
+    margin: 0 auto;
+    width: 960px;
+}
+ul {
+    padding: 0;
+}
+li {
+    padding: 20px 3%;
+    margin-bottom: 20px;
+    list-style: none outside none;
+    background: #fff;
+}
+.link {
+    margin-left: 20px;
+    color: #fff;
+    text-decoration: none;
+}
+.link:hover {
+    text-decoration: underline;
+}
+
+/* Titres */
+h1 {
+    margin: 2em 0;
+    color: #fff;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 2em;
+    text-transform: uppercase;
+}
+h2 {
+    margin-top: 0;
+    color: #868395;
+    text-transform: uppercase;
+    font-size: 1.2em;
+}
+
+/* Form */
+form {
+    clear: both;
+    padding: 20px;
+    background: #fff;
+    border-radius: 10px;
+}
+label {
+    cursor: pointer;
+}
+input[type="checkbox"],
+input[type="radio"],
+select {
+    cursor: pointer;
+}
+.form-item {
+    display: inline-block;
+}
+.form-item + .form-item {
+    margin-left: 20px;
+}

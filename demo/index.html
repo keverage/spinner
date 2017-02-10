@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>Spinner</title>
+        <link rel="stylesheet" href="demo.css" />
+
+        <link rel="stylesheet" href="../dist/spinner.css" />
+        
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js" ></script>
+        
+        <script src="../src/spinner.js"></script>
+        <script>
+            jQuery(document).ready(function($) {
+                var elements = {
+                    body: $('body'),
+                    form: $('#spinner-choice'),
+                    list: $('#list-result-wrapper'),
+                    btn: $('#submit-btn')
+                };
+
+                // Init
+                var loader = elements.body.spinner();
+
+                // Changement du type
+                elements.form.find('#choice-type').on('change', function() {
+                    var type = $(this).val();
+
+                    loader.destroy();
+
+                    if (type === 'overlay') {
+                        loader = elements.body.spinner();
+                    } else if (type === 'inline') {
+                        loader = elements.list.spinner({
+                            type: 'inline'
+                        });
+                    } else {
+                        loader = elements.btn.spinner({
+                            type: 'button'
+                        });
+                    }
+                });
+
+                // Test
+                elements.btn.on('click', function(event) {
+                    event.preventDefault();
+                    var btn = $(this);
+                    var spinner = elements.form.find('#choice-spinner');
+                    var spinnerImage = elements.form.find('#choice-spinnerImage').val();
+                    var text = elements.form.find('#choice-text').val();
+
+                    elements.body
+                        .removeClass('svg-puff svg-oval svg-tail-spin')
+                        .addClass('svg-' + spinnerImage);
+
+                    loader.setOptions({
+                        spinner: spinner.prop('checked'),
+                        text: (text !== '') ? text : undefined
+                    });
+
+                    sendAjax(loader);
+                });
+
+                // Requête ajax
+                function sendAjax(loader) {
+                    $.getJSON({
+                        url: 'ajax.php',
+                        beforeSend: function() {
+                            loader.show();
+                        },
+                        complete: function() {
+                            loader.hide();
+                        }
+                    });
+                }
+            });
+        </script>
+    </head>
+    <body>
+        <div class="page" id="main">
+
+            <h1>Spinner</h1>
+
+            <form method="post" action="" id="spinner-choice">
+                <div class="form-item">
+                    <label for="choice-type">Type :</label>
+                    <select name="type" id="choice-type">
+                        <option value="overlay">Overlay</option>
+                        <option value="inline">Inline</option>
+                        <option value="button">Button</option>
+                    </select>
+                </div>
+
+                <div class="form-item">
+                    <input type="checkbox" name="spinner" id="choice-spinner" checked />
+                    <label for="choice-spinner">Activer le spinner</label>
+                </div>
+
+                <div class="form-item">
+                    <label for="choice-spinnerImage">Spinner :</label>
+                    <select name="spinnerImage" id="choice-spinnerImage">
+                        <option value="puff">Puff</option>
+                        <option value="oval">Oval</option>
+                        <option value="tail-spin">Tail-spin</option>
+                    </select>
+                </div>
+
+                <div class="form-item">
+                    <label for="choice-text">Texte :</label>
+                    <input type="text" name="text" id="choice-text" value="Chargement en cours" />
+                </div>
+
+                <div class="form-item">
+                    <button id="submit-btn">Tester !</button>
+                </div>
+            </form>
+
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Itaque quod, culpa aspernatur sequi dolorem. Assumenda at, odio delectus asperiores itaque rem recusandae aperiam nostrum aut accusantium sed quam perspiciatis facere.</p>
+
+            <div id="list-result-wrapper" data-spinner-text="Chargement...">
+                <ul id="list-result">
+                    <li>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est aut rem impedit adipisci laborum esse natus, alias quaerat dolorem maxime nulla aperiam consequuntur modi ab hic tempore voluptatem. Unde, ipsum.</li>
+                    <li>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est aut rem impedit adipisci laborum esse natus, alias quaerat dolorem maxime nulla aperiam consequuntur modi ab hic tempore voluptatem. Unde, ipsum.</li>
+                    <li>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est aut rem impedit adipisci laborum esse natus, alias quaerat dolorem maxime nulla aperiam consequuntur modi ab hic tempore voluptatem. Unde, ipsum.</li>
+                    <li>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est aut rem impedit adipisci laborum esse natus, alias quaerat dolorem maxime nulla aperiam consequuntur modi ab hic tempore voluptatem. Unde, ipsum.</li>
+                    <li>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est aut rem impedit adipisci laborum esse natus, alias quaerat dolorem maxime nulla aperiam consequuntur modi ab hic tempore voluptatem. Unde, ipsum.</li>
+                    <li>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est aut rem impedit adipisci laborum esse natus, alias quaerat dolorem maxime nulla aperiam consequuntur modi ab hic tempore voluptatem. Unde, ipsum.</li>
+                    <li>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est aut rem impedit adipisci laborum esse natus, alias quaerat dolorem maxime nulla aperiam consequuntur modi ab hic tempore voluptatem. Unde, ipsum.</li>
+                    <li>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est aut rem impedit adipisci laborum esse natus, alias quaerat dolorem maxime nulla aperiam consequuntur modi ab hic tempore voluptatem. Unde, ipsum.</li>
+                    <li>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est aut rem impedit adipisci laborum esse natus, alias quaerat dolorem maxime nulla aperiam consequuntur modi ab hic tempore voluptatem. Unde, ipsum.</li>
+                </ul>
+            </div>
+
+            <footer>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Itaque quod, culpa aspernatur sequi dolorem. Assumenda at, odio delectus asperiores itaque rem recusandae aperiam nostrum aut accusantium sed quam perspiciatis facere.</p>
+            </footer>
+        </div>
+    </body>
+</html>
