@@ -5,7 +5,7 @@ var rename = require('gulp-rename');
 
 gulp.task('js', function() {
     return gulp.src('./src/*.js')
-        .pipe(uglify()).on('error', function(error){
+        .pipe(uglify()).on('error', function(error) {
             console.log(error);
         })
         .pipe(rename(function (path) {
@@ -16,7 +16,7 @@ gulp.task('js', function() {
 
 gulp.task('less', function() {
     return gulp.src('./src/*.less')
-        .pipe(less()).on('error', function(error){
+        .pipe(less()).on('error', function(error) {
             console.log(error);
         })
         .pipe(gulp.dest('./dist/'));

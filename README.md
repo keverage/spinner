@@ -21,7 +21,7 @@ Ce script permet de créer un loader et de l'activer/désactiver.
 | &nbsp;&nbsp;&nbsp;&nbsp;wrapperInner | string   | '{prefix}-wrapperInner' | Classe pour le inner du wrapper                              |
 | &nbsp;&nbsp;&nbsp;&nbsp;text         | string   | '{prefix}-text'         | Classe pour le texte du spinner                              |
 | &nbsp;&nbsp;&nbsp;&nbsp;spinner      | string   | 'l-spinner'             | Classe pour indiquer si l'image spinner est activé           |
-| &nbsp;&nbsp;&nbsp;&nbsp;loading      | string   | 'is-loading'            | Classe pour indiqier si le spinner est en train de charger   |
+| &nbsp;&nbsp;&nbsp;&nbsp;loading      | string   | 'is-loading'            | Classe pour indiquer si le spinner est en train de charger   |
 | beforeWrap                           | function | undefined               | Callback avant l'ajout des wrappers dans le DOM              |
 | onShow                               | function | undefined               | Callback une fois le spinner affiché                         |
 | onHide                               | function | undefined               | Callback une fois le spinner masqué                          |
