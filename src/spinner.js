@@ -1,7 +1,7 @@
 /**
  * Spinner
  *
- * @version 2.0 (10/02/2017)
+ * @version 2.1 (11/05/2017)
  */
 (function($) {
     'use strict';
@@ -29,7 +29,7 @@
     $.Spinner.defaults = {
         type: 'overlay',
         spinner: true,
-        text: undefined,
+        text: null,
         timeout: 10000,
         classes: {
             prefix: 'spinner',
@@ -92,7 +92,7 @@
 
                 // Wrapper
                 this.elements.wrapper = $('<' + ((this.settings.type === 'button') ? 'span' : 'div') + '>', {
-                    class: this.settings.classes.wrapper
+                    'class': this.settings.classes.wrapper
                 });
                 this.wrap();
             }
@@ -153,13 +153,13 @@
 
             // Inner
             this.elements.wrapperInner = $('<div>', {
-                class: this.settings.classes.wrapperInner
+                'class': this.settings.classes.wrapperInner
             });
 
             // Texte
             if (this.settings.text !== undefined && this.settings.type !== 'button') {
                 this.elements.text = $('<p>', {
-                    class: this.settings.classes.text,
+                    'class': this.settings.classes.text,
                     html: this.settings.text
                 });
             }

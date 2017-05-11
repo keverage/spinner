@@ -22,7 +22,7 @@
                 // Init
                 var loader = elements.body.spinner();
 
-                // Changement du type
+                // OnChange spinner type
                 elements.form.find('#choice-type').on('change', function() {
                     var type = $(this).val();
 
@@ -43,6 +43,7 @@
 
                 // Test
                 elements.btn.on('click', function(event) {
+                    // START DEMO
                     event.preventDefault();
                     var btn = $(this);
                     var spinner = elements.form.find('#choice-spinner');
@@ -55,24 +56,21 @@
 
                     loader.setOptions({
                         spinner: spinner.prop('checked'),
-                        text: (text !== '') ? text : undefined
+                        text: (text !== '') ? text : null,
+                        timeout: 3000 // auto stop for demo
                     });
+                    // END DEMO
 
-                    sendAjax(loader);
+
+
+                    // START SPINNER
+                    loader.show();
+
+                    // ACTIONS
+                     
+                    // STOP SPINNER
+                    // loader.hide();
                 });
-
-                // Requête ajax
-                function sendAjax(loader) {
-                    $.getJSON({
-                        url: 'ajax.php',
-                        beforeSend: function() {
-                            loader.show();
-                        },
-                        complete: function() {
-                            loader.hide();
-                        }
-                    });
-                }
             });
         </script>
     </head>
@@ -117,7 +115,7 @@
 
             <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Itaque quod, culpa aspernatur sequi dolorem. Assumenda at, odio delectus asperiores itaque rem recusandae aperiam nostrum aut accusantium sed quam perspiciatis facere.</p>
 
-            <div id="list-result-wrapper" data-spinner-text="Chargement...">
+            <div id="list-result-wrapper">
                 <ul id="list-result">
                     <li>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est aut rem impedit adipisci laborum esse natus, alias quaerat dolorem maxime nulla aperiam consequuntur modi ab hic tempore voluptatem. Unde, ipsum.</li>
                     <li>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est aut rem impedit adipisci laborum esse natus, alias quaerat dolorem maxime nulla aperiam consequuntur modi ab hic tempore voluptatem. Unde, ipsum.</li>
