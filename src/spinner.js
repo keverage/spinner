@@ -1,7 +1,7 @@
 /**
  * Spinner
  *
- * @version 2.1 (11/05/2017)
+ * @version 2.1 (12/05/2017)
  */
 (function($) {
     'use strict';
@@ -80,6 +80,8 @@
         setOptions: function(options) {
             $.extend(true, this.settings, options);
             this.refresh();
+
+            return this;
         },
 
         /**
@@ -157,7 +159,7 @@
             });
 
             // Texte
-            if (this.settings.text !== undefined && this.settings.type !== 'button') {
+            if (this.settings.text !== null && this.settings.type !== 'button') {
                 this.elements.text = $('<p>', {
                     'class': this.settings.classes.text,
                     html: this.settings.text
@@ -175,7 +177,7 @@
             // Insertion
             this.elements.wrapper[(this.settings.type === 'overlay') ? 'appendTo' : 'prependTo'](this.elements.container);
             this.elements.wrapperInner.appendTo(this.elements.wrapper);
-            if (this.elements.text !== undefined) {
+            if (this.elements.text !== null) {
                 this.elements.text.appendTo(this.elements.wrapperInner);
             }
         },
