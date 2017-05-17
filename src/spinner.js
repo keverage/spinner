@@ -1,12 +1,12 @@
 /**
  * Spinner
  *
- * @version 2.1 (12/05/2017)
+ * @version 2.1 (17/05/2017)
  */
-(function($) {
+(function ($) {
     'use strict';
 
-    $.Spinner = function(element, options) {
+    $.Spinner = function (element, options) {
         // Élements
         this.elements = {
             container: element
@@ -50,18 +50,18 @@
          *
          * @return bool
          */
-        prepareOptions: function() {
+        prepareOptions: function () {
             var self = this;
 
             // Classes
-            $.each(self.settings.classes, function(key, value) {
+            $.each(self.settings.classes, function (key, value) {
                 if (typeof value === 'string') {
                     self.settings.classes[key] = value.replace(/{prefix}/, self.settings.classes.prefix);
                 }
             });
 
             // Attributs data-{classes.prefix}-*
-            $.each(self.settings, function(name) {
+            $.each(self.settings, function (name) {
                 var dataAttrValue = self.elements.container.attr('data-' + self.settings.classes.prefix + '-' + name);
 
                 if (dataAttrValue !== undefined && dataAttrValue.length) {
@@ -77,7 +77,7 @@
          *
          * @param object options Liste des options à modifier
          */
-        setOptions: function(options) {
+        setOptions: function (options) {
             $.extend(true, this.settings, options);
             this.refresh();
 
@@ -87,7 +87,7 @@
         /**
          * Initialisation
          */
-        init: function() {
+        init: function () {
             // Si c'est pas déjà initialisé
             if (!this.elements.container.hasClass(this.settings.classes.prefix)) {
                 this.elements.container.addClass(this.settings.classes.prefix + ' ' + this.settings.classes.prefix + '--' + this.settings.type + ' ' + ((this.settings.spinner === true) ? this.settings.classes.spinner : ''));
@@ -105,16 +105,16 @@
         /**
          * Détruit le spinner pour revenir à la normale
          */
-        destroy: function() {
+        destroy: function () {
             var self = this;
 
             // Container
-            self.elements.container.removeClass(function() {
+            self.elements.container.removeClass(function () {
                 var classes = self.elements.container.attr('class').split(' ');
                 var list = null;
 
                 if (classes.length) {
-                    $.each(classes, function(i, className) {
+                    $.each(classes, function (i, className) {
                         if (className.indexOf(self.settings.classes.prefix) !== -1) {
                             list += ' ' + className;
                         }
@@ -139,7 +139,7 @@
         /**
          * Détruit puis initialise le spinner
          */
-        refresh: function() {
+        refresh: function () {
             this.destroy();
             this.init();
 
@@ -149,7 +149,7 @@
         /**
          * Gestion des wrappers
          */
-        wrap: function() {
+        wrap: function () {
             // Vide le wrapper pour le regenérer
             this.elements.wrapper.empty();
 
@@ -177,7 +177,7 @@
             // Insertion
             this.elements.wrapper[(this.settings.type === 'overlay') ? 'appendTo' : 'prependTo'](this.elements.container);
             this.elements.wrapperInner.appendTo(this.elements.wrapper);
-            if (this.elements.text !== null) {
+            if (this.elements.text !== undefined) {
                 this.elements.text.appendTo(this.elements.wrapperInner);
             }
         },
@@ -187,7 +187,7 @@
          *
          * @param function complete Fonction executée une fois le spinner affiché
          */
-        show: function(complete) {
+        show: function (complete) {
             this.elements.container.addClass(this.settings.classes.loading);
 
             // Le contenu de l'élement est remplacé par le paramètre "text"
@@ -225,7 +225,7 @@
          *
          * @param function complete Fonction executée une fois le spinner masqué
          */
-        hide: function(complete) {
+        hide: function (complete) {
             clearTimeout(this.timeout);
             this.elements.container.removeClass(this.settings.classes.loading);
 
@@ -257,18 +257,18 @@
         /**
          * Ajoute un timeout à l'affichage du spinner pour le masquer automatiquement
          */
-        setTimeout: function() {
+        setTimeout: function () {
             var self = this;
 
             if (self.settings.timeout !== undefined && self.settings.timeout > 0) {
-                self.timeout = setTimeout(function() {
+                self.timeout = setTimeout(function () {
                     self.hide();
                 }, self.settings.timeout);
             }
         }
     };
 
-    $.fn.spinner = function(options) {
+    $.fn.spinner = function (options) {
         return new $.Spinner($(this), options);
     };
 })(jQuery);
