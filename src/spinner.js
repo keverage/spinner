@@ -1,8 +1,3 @@
-/**
- * Spinner
- *
- * @version 2.1 (17/05/2017)
- */
 (function ($) {
     'use strict';
 
@@ -27,10 +22,13 @@
     };
 
     $.Spinner.defaults = {
+        auto: false,
+        autoPathsExceptions: [],
         type: 'overlay',
         spinner: true,
         text: null,
-        timeout: 10000,
+        minTimeout: 1000,
+        maxTimeout: 10000,
         classes: {
             prefix: 'spinner',
             wrapper: '{prefix}-wrapper',
@@ -97,9 +95,43 @@
                     'class': this.settings.classes.wrapper
                 });
                 this.wrap();
+
+                // Autoload
+                if (this.settings.auto) {
+                    this.auto();
+                }
             }
 
             return this;
+        },
+
+        /**
+         * Auto show/hide le spinner en fonction des requêtes XHR exécutées
+         */
+        auto: function () {
+            var self = this;
+
+            $(document)
+                .ajaxSend(function (event, jqXHR, ajaxOptions) {
+                    var toShow = true;
+
+                    if (self.settings.autoPathsExceptions.length) {
+                        $.each(self.settings.autoPathsExceptions, function (i, path) {
+                            if (ajaxOptions.url.indexOf(path) !== -1) {
+                                toShow = false;
+                            }
+                        });
+                    }
+
+                    if (toShow) {
+                        self.show();
+                    }
+                })
+                .ajaxStop(function () {
+                    self.hide();
+                });
+
+            return self;
         },
 
         /**
@@ -169,7 +201,7 @@
             // User callback
             if (this.settings.beforeWrap !== undefined) {
                 this.settings.beforeWrap.call({
-                    Spinner: this,
+                    spinner: this,
                     elements: this.elements
                 });
             }
@@ -180,12 +212,15 @@
             if (this.elements.text !== undefined) {
                 this.elements.text.appendTo(this.elements.wrapperInner);
             }
+
+            return this;
         },
 
         /**
          * Affiche le spinner
          *
-         * @param function complete Fonction executée une fois le spinner affiché
+         * @param function complete Fonction executée une fois le spinner
+         *     affiché
          */
         show: function (complete) {
             this.elements.container.addClass(this.settings.classes.loading);
@@ -201,7 +236,7 @@
             // User callback
             if (this.settings.onShow !== undefined) {
                 this.settings.onShow.call({
-                    Spinner: this,
+                    spinner: this,
                     container: this.elements.container
                 });
             }
@@ -209,7 +244,7 @@
             // Callback
             if (complete !== undefined) {
                 complete.call({
-                    Spinner: this,
+                    spinner: this,
                     container: this.elements.container
                 });
             }
@@ -226,44 +261,50 @@
          * @param function complete Fonction executée une fois le spinner masqué
          */
         hide: function (complete) {
-            clearTimeout(this.timeout);
-            this.elements.container.removeClass(this.settings.classes.loading);
+            var self = this;
+            clearTimeout(self.timeout);
 
-            // Le contenu de l'élement est remis à l'état initial
-            if (this.settings.type === 'button' && this.settings.text !== null && this.elements.buttontext !== undefined) {
-                this.elements.container.html(this.elements.buttontext);
-                this.wrap();
-            }
+            // Minimum timeout
+            setTimeout(function () {
+                self.elements.container.removeClass(self.settings.classes.loading);
 
-            // User callback
-            if (this.settings.onHide !== undefined) {
-                this.settings.onHide.call({
-                    Spinner: this,
-                    container: this.elements.container
-                });
-            }
+                // Le contenu de l'élement est remis à l'état initial
+                if (self.settings.type === 'button' && self.settings.text !== null && self.elements.buttontext !== undefined) {
+                    self.elements.container.html(self.elements.buttontext);
+                    self.wrap();
+                }
 
-            // Callback
-            if (complete !== undefined) {
-                complete.call({
-                    Spinner: this,
-                    container: this.elements.container
-                });
-            }
+                // User callback
+                if (self.settings.onHide !== undefined) {
+                    self.settings.onHide.call({
+                        spinner: self,
+                        container: self.elements.container
+                    });
+                }
+
+                // Callback
+                if (complete !== undefined) {
+                    complete.call({
+                        spinner: self,
+                        container: self.elements.container
+                    });
+                }
+            }, self.settings.minTimeout);
 
             return this;
         },
 
         /**
-         * Ajoute un timeout à l'affichage du spinner pour le masquer automatiquement
+         * Ajoute un timeout à l'affichage du spinner pour le masquer
+         * automatiquement
          */
         setTimeout: function () {
             var self = this;
 
-            if (self.settings.timeout !== undefined && self.settings.timeout > 0) {
+            if (self.settings.maxTimeout !== undefined && self.settings.maxTimeout > 0) {
                 self.timeout = setTimeout(function () {
                     self.hide();
-                }, self.settings.timeout);
+                }, self.settings.maxTimeout);
             }
         }
     };

@@ -6,12 +6,12 @@
         <link rel="stylesheet" href="demo.css" />
 
         <link rel="stylesheet" href="../dist/spinner.css" />
-        
-        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js" ></script>
+
+        <script src="../node_modules/jquery/dist/jquery.min.js" ></script>
         
         <script src="../src/spinner.js"></script>
         <script>
-            jQuery(document).ready(function($) {
+            jQuery(document).ready(function ($) {
                 var elements = {
                     body: $('body'),
                     form: $('#spinner-choice'),
@@ -57,7 +57,7 @@
                     loader.setOptions({
                         spinner: spinner.prop('checked'),
                         text: (text !== '') ? text : null,
-                        timeout: 3000 // auto stop for demo
+                        maxTimeout: 3000 // auto stop for demo
                     });
                     // END DEMO
 

@@ -1,4 +1,6 @@
-// Global
+/* ==========================================================================
+   Spinner
+   ========================================================================== */
 .spinner--overlay {
     position: relative;
 }
@@ -9,8 +11,9 @@
         display: inline-block;
     }
 }
-
-// overlay
+/* ==========================================================================
+   Overlay
+   ========================================================================== */
 .spinner--overlay {
     .spinner-wrapper {
         position: fixed;
@@ -53,22 +56,22 @@
         }
 
         &.is-loading {
-            .spinner-wrapperInner {
-                .svg-puff& {
-                    background-image: url("../demo/svg-loaders/puff.svg");
-                }
-                .svg-oval& {
-                    background-image: url("../demo/svg-loaders/oval.svg");
-                }
-                .svg-tail-spin& {
-                    background-image: url("../demo/svg-loaders/tail-spin.svg");
-                }
+            &.svg-puff .spinner-wrapperInner {
+                background-image: url("../demo/images/puff.svg");
+            }
+            &.svg-oval .spinner-wrapperInner {
+                background-image: url("../demo/images/oval.svg");
+            }
+            &.svg-tail-spin .spinner-wrapperInner {
+                background-image: url("../demo/images/tail-spin.svg");
             }
         }
     }
 }
 
-// inline
+/* ==========================================================================
+   Inline
+   ========================================================================== */
 .spinner--inline {
     .spinner-wrapper {
         position: relative;
@@ -77,25 +80,26 @@
         background: no-repeat #fff;
         border-radius: 5px;
 
-        .l-spinner& {
-            padding-left: 50px;
-            background-image: url("../demo/spinner-inline.gif");
-            background-position: 20px center;
-        }
-
         p {
             margin: 0;
         }
     }
+    .l-spinner .spinner-wrapper {
+        padding-left: 50px;
+        background-image: url("../demo/images/spinner-inline.gif");
+        background-position: 20px center;
+    }
 }
 
-// button
+/* ==========================================================================
+   Button
+   ========================================================================== */
 .spinner--button {
     &.l-spinner .spinner-wrapper {
         margin-right: 5px;
         width: 16px;
         height: 11px;
-        background: url("../demo/spinner-inline.gif") no-repeat;
+        background: url("../demo/images/spinner-inline.gif") no-repeat;
     }
     &.is-loading .icon {
         display: none;
