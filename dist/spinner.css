@@ -25,11 +25,10 @@
   height: 100%;
   background: rgba(0, 0, 0, 0.5);
   -webkit-transition: .3s;
-  -o-transition: .3s;
   transition: .3s;
 }
 
-.spinner--overlay .spinner-wrapperInner {
+.spinner--overlay .spinner-wrapper-inner {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -52,25 +51,36 @@
   text-align: center;
   text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5);
   -webkit-transform: translateX(-50%);
-      -ms-transform: translateX(-50%);
           transform: translateX(-50%);
 }
 
-.spinner--overlay.l-spinner .spinner-wrapperInner {
+.spinner--overlay.l-spinner .spinner-wrapper-inner {
   background: no-repeat center #ff5a60;
   border-radius: 50%;
 }
 
-.spinner--overlay.l-spinner.is-loading.svg-puff .spinner-wrapperInner {
-  background-image: url("../demo/images/puff.svg");
-}
-
-.spinner--overlay.l-spinner.is-loading.svg-oval .spinner-wrapperInner {
+.spinner--overlay.l-spinner.is-loading.svg-oval .spinner-wrapper-inner {
   background-image: url("../demo/images/oval.svg");
 }
 
-.spinner--overlay.l-spinner.is-loading.svg-tail-spin .spinner-wrapperInner {
+.spinner--overlay.l-spinner.is-loading.svg-puff .spinner-wrapper-inner {
+  background-image: url("../demo/images/puff.svg");
+}
+
+.spinner--overlay.l-spinner.is-loading.svg-tail-spin .spinner-wrapper-inner {
   background-image: url("../demo/images/tail-spin.svg");
+}
+
+.spinner--overlay.l-spinner.is-loading.svg-multi-semicircle .spinner-wrapper-inner {
+  background-image: url("../demo/images/multi-semicircle.svg");
+}
+
+.spinner--overlay.l-spinner.is-loading.svg-semicircle .spinner-wrapper-inner {
+  background-image: url("../demo/images/semicircle.svg");
+}
+
+.spinner--overlay.l-spinner.is-loading.svg-circle-dot .spinner-wrapper-inner {
+  background-image: url("../demo/images/circle-dot.svg");
 }
 
 /* ==========================================================================
@@ -88,7 +98,7 @@
   margin: 0;
 }
 
-.spinner--inline .l-spinner .spinner-wrapper {
+.spinner--inline.l-spinner .spinner-wrapper {
   padding-left: 3.125rem;
   background-image: url("../demo/images/spinner-inline.gif");
   background-position: 20px center;

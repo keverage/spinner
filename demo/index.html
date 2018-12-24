@@ -18,15 +18,13 @@
                     list: $('#list-result-wrapper'),
                     btn: $('#submit-btn')
                 };
+                var loader = undefined;
+                var initLoader = function (type) {
+                    type = type || elements.form.find('#choice-type').val();
 
-                // Init
-                var loader = elements.body.spinner();
-
-                // OnChange spinner type
-                elements.form.find('#choice-type').on('change', function() {
-                    var type = $(this).val();
-
-                    loader.destroy();
+                    if (loader !== undefined) {
+                        loader.destroy();
+                    }
 
                     if (type === 'overlay') {
                         loader = elements.body.spinner();
@@ -39,10 +37,20 @@
                             type: 'button'
                         });
                     }
+
+                    return loader;
+                }
+
+                // Init
+                loader = initLoader();
+
+                // OnChange spinner type
+                elements.form.find('#choice-type').on('change', function () {
+                    loader = initLoader($(this).val());
                 });
 
                 // Test
-                elements.btn.on('click', function(event) {
+                elements.btn.on('click', function (event) {
                     // START DEMO
                     event.preventDefault();
                     var btn = $(this);
@@ -50,9 +58,25 @@
                     var spinnerImage = elements.form.find('#choice-spinnerImage').val();
                     var text = elements.form.find('#choice-text').val();
 
-                    elements.body
-                        .removeClass('svg-puff svg-oval svg-tail-spin')
-                        .addClass('svg-' + spinnerImage);
+                    elements.body.removeClass(function () {
+                        var classes = $(this).attr('class');
+
+                        if (classes !== undefined) {
+                            classes = classes.split(' ');
+                            var toRemove = [];
+
+                            $.each(classes, function (i, classe) {
+                                if (classe.indexOf('svg-') !== -1) {
+                                    toRemove.push(classe);
+                                }
+                            });
+
+                            return toRemove.join(' ');
+                        }
+
+                        return false;
+                    });
+                    elements.body.addClass('svg-' + spinnerImage);
 
                     loader.setOptions({
                         spinner: spinner.prop('checked'),
@@ -97,9 +121,12 @@
                 <div class="form-item">
                     <label for="choice-spinnerImage">Spinner :</label>
                     <select name="spinnerImage" id="choice-spinnerImage">
-                        <option value="puff">Puff</option>
                         <option value="oval">Oval</option>
+                        <option value="puff">Puff</option>
                         <option value="tail-spin">Tail-spin</option>
+                        <option value="multi-semicircle">Multi semicircle</option>
+                        <option value="semicircle">Semicircle</option>
+                        <option value="circle-dot">Circle-dot</option>
                     </select>
                 </div>
 

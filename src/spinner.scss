@@ -25,7 +25,7 @@
         background: rgba(0, 0, 0, .5);
         transition: .3s;
     }
-    .spinner-wrapperInner {
+    .spinner-wrapper-inner {
         position: absolute;
         top: 50%;
         left: 50%;
@@ -50,20 +50,29 @@
     }
 
     &.l-spinner {
-        .spinner-wrapperInner {
+        .spinner-wrapper-inner {
             background: no-repeat center #ff5a60;
             border-radius: 50%;
         }
 
         &.is-loading {
-            &.svg-puff .spinner-wrapperInner {
-                background-image: url("../demo/images/puff.svg");
-            }
-            &.svg-oval .spinner-wrapperInner {
+            &.svg-oval .spinner-wrapper-inner {
                 background-image: url("../demo/images/oval.svg");
             }
-            &.svg-tail-spin .spinner-wrapperInner {
+            &.svg-puff .spinner-wrapper-inner {
+                background-image: url("../demo/images/puff.svg");
+            }
+            &.svg-tail-spin .spinner-wrapper-inner {
                 background-image: url("../demo/images/tail-spin.svg");
+            }
+            &.svg-multi-semicircle .spinner-wrapper-inner {
+                background-image: url("../demo/images/multi-semicircle.svg");
+            }
+            &.svg-semicircle .spinner-wrapper-inner {
+                background-image: url("../demo/images/semicircle.svg");
+            }
+            &.svg-circle-dot .spinner-wrapper-inner {
+                background-image: url("../demo/images/circle-dot.svg");
             }
         }
     }
@@ -84,7 +93,7 @@
             margin: 0;
         }
     }
-    .l-spinner .spinner-wrapper {
+    &.l-spinner .spinner-wrapper {
         padding-left: 50px;
         background-image: url("../demo/images/spinner-inline.gif");
         background-position: 20px center;

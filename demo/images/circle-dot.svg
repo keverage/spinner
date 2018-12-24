@@ -1,0 +1,2 @@
+<!-- By Nikhil Krishnan. More @ https://codepen.io/nikhil8krishnan/pen/rVoXJa -->
+<svg width="62" height="62" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle fill="none" stroke="#fff" stroke-width="4" cx="50" cy="50" r="44" opacity=".5"/><circle fill="#fff" stroke="#fff" stroke-opacity=".5" stroke-width="3" cx="8" cy="54" r="6"><animateTransform attributeName="transform" dur="2s" type="rotate" from="0 50 48" to="360 50 52" repeatCount="indefinite"/></circle></svg>

@@ -27,12 +27,12 @@
         type: 'overlay',
         spinner: true,
         text: null,
-        minTimeout: 1000,
-        maxTimeout: 10000,
+        minTimeout: 600,
+        maxTimeout: 8000,
         classes: {
             prefix: 'spinner',
             wrapper: '{prefix}-wrapper',
-            wrapperInner: '{prefix}-wrapperInner',
+            wrapperInner: '{prefix}-wrapper-inner',
             text: '{prefix}-text',
             spinner: 'l-spinner',
             loading: 'is-loading'
