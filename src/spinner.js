@@ -25,6 +25,7 @@
         auto: false,
         autoPathsExceptions: [],
         type: 'overlay',
+        wrapper: true,
         spinner: true,
         text: null,
         minTimeout: 600,
@@ -67,6 +68,11 @@
                 }
             });
 
+            // Auto disable wrapper
+            if (self.settings.type === 'button' && self.elements.container.is('input, img')) {
+                self.settings.wrapper = false;
+            }
+
             return true;
         },
 
@@ -88,13 +94,15 @@
         init: function () {
             // Si c'est pas déjà initialisé
             if (!this.elements.container.hasClass(this.settings.classes.prefix)) {
-                this.elements.container.addClass(this.settings.classes.prefix + ' ' + this.settings.classes.prefix + '--' + this.settings.type + ' ' + ((this.settings.spinner === true) ? this.settings.classes.spinner : ''));
+                this.elements.container.addClass(this.settings.classes.prefix + ' ' + this.settings.classes.prefix + '--' + this.settings.type + ' ' + (this.settings.spinner ? this.settings.classes.spinner : ''));
 
                 // Wrapper
-                this.elements.wrapper = $('<' + ((this.settings.type === 'button') ? 'span' : 'div') + '>', {
+                this.elements.wrapper = $('<' + (this.settings.type === 'button' ? 'span' : 'div') + '>', {
                     'class': this.settings.classes.wrapper
                 });
-                this.wrap();
+                if (this.settings.wrapper) {
+                    this.wrap();
+                }
 
                 // Autoload
                 if (this.settings.auto) {
@@ -172,10 +180,7 @@
          * Détruit puis initialise le spinner
          */
         refresh: function () {
-            this.destroy();
-            this.init();
-
-            return this;
+            return this.destroy().init();
         },
 
         /**
@@ -186,7 +191,7 @@
             this.elements.wrapper.empty();
 
             // Inner
-            this.elements.wrapperInner = $('<div>', {
+            this.elements.wrapperInner = $('<' + (this.settings.type === 'button' ? 'span' : 'div') + '>', {
                 'class': this.settings.classes.wrapperInner
             });
 
@@ -230,7 +235,9 @@
                 this.elements.wrapper.remove();
                 this.elements.buttontext = this.elements.container.html();
                 this.elements.container.text(this.settings.text);
-                this.wrap();
+                if (this.settings.wrapper) {
+                    this.wrap();
+                }
             }
 
             // User callback
@@ -271,7 +278,9 @@
                 // Le contenu de l'élement est remis à l'état initial
                 if (self.settings.type === 'button' && self.settings.text !== null && self.elements.buttontext !== undefined) {
                     self.elements.container.html(self.elements.buttontext);
-                    self.wrap();
+                    if (self.settings.wrapper) {
+                        self.wrap();
+                    }
                 }
 
                 // User callback

@@ -1,6 +1,6 @@
 {
   "name": "spinner",
-  "version": "2.2.1",
+  "version": "2.2.2",
   "main": "./dist/spinner.min.js",
   "repository": "https://github.com/kevinbaubet/spinner.git",
   "author": "Kévin Baubet <contact@kevinbaubet.fr>",
