@@ -2,9 +2,16 @@
 
 Spinner permet de créer un loader et de l'activer/désactiver.
 
-## Initialisation
+## Exemple
 
+    // Init
     var spinner = $('#container').spinner([options]);
+    
+    // Show
+    spinner.show();
+    
+    // Hide
+    spinner.hide();
 
 
 ## Options
@@ -32,12 +39,32 @@ Spinner permet de créer un loader et de l'activer/désactiver.
 
 ## Méthodes
 
-| Méthode    | Arguments                                                    | Description                                                      |
-|------------|--------------------------------------------------------------|------------------------------------------------------------------|
-| setOptions | **options** *object* Liste des options à modifier            | Permet de définir de nouvelles options                           |
-| init       | -                                                            | Initialisation du spinner                                        |
-| auto       | -                                                            | Auto show/hide le spinner en fonction des requêtes XHR exécutées |
-| destroy    | -                                                            | Détruit le spinner pour revenir à la normale                     |
-| refresh    | -                                                            | Détruit puis initialise le spinner                               |
-| show       | **complete** *function* Callback une fois l'action effectuée | Affiche le spinner                                               |
-| hide       | **complete** *function* Callback une fois l'action effectuée | Masque le spinner                                                |
+| Méthode      | Arguments                                                    | Description                                                      |
+|--------------|--------------------------------------------------------------|------------------------------------------------------------------|
+| setOptions   | **options** *object* Liste des options à modifier            | Permet de définir de nouvelles options                           |
+| setContainer | **container** *jQuery object* Conteneur                      | Défini un conteneur dans lequel sera affiché le spinner          |
+| getContainer | -                                                            | Récupère le conteneneur courant                                  |
+| init         | -                                                            | Initialisation du spinner                                        |
+| auto         | -                                                            | Auto show/hide le spinner en fonction des requêtes XHR exécutées |
+| destroy      | -                                                            | Détruit le spinner pour revenir à la normale                     |
+| refresh      | -                                                            | Détruit puis initialise le spinner                               |
+| show         | **complete** *function* Callback une fois l'action effectuée | Affiche le spinner                                               |
+| hide         | **complete** *function* Callback une fois l'action effectuée | Masque le spinner                                                |
+
+
+## Ajax
+
+Si vous voulez afficher un loader lors des requêtes XHR, activez l'option *auto*
+
+    var spinner = $('#container').spinner({
+        auto: true
+    });
+    
+Sauf pour certaines urls :
+
+    var spinner = $('#container').spinner({
+        auto: true,
+        autoPathsExceptions: [
+            '/system-path-no-spinner'
+        ]
+    });

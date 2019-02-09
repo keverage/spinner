@@ -8,10 +8,13 @@
         };
 
         // Config
-        $.extend(true, (this.settings = {}), $.Spinner.defaults, options);
+        $.extend(true, this.settings = {}, $.Spinner.defaults, options);
 
         // Variables
-        this.timeout = null;
+        this.timeout = {
+            min: undefined,
+            max: undefined
+        };
 
         // Init
         if (this.prepareOptions()) {
@@ -47,7 +50,7 @@
         /**
          * Préparation des options utilisateur
          *
-         * @return bool
+         * @return boolean
          */
         prepareOptions: function () {
             var self = this;
@@ -61,7 +64,7 @@
 
             // Attributs data-{classes.prefix}-*
             $.each(self.settings, function (name) {
-                var dataAttrValue = self.elements.container.attr('data-' + self.settings.classes.prefix + '-' + name);
+                var dataAttrValue = self.getContainer().attr('data-' + self.settings.classes.prefix + '-' + name);
 
                 if (dataAttrValue !== undefined && dataAttrValue.length) {
                     self.settings[name] = (name === 'spinner') ? !dataAttrValue : dataAttrValue;
@@ -69,7 +72,7 @@
             });
 
             // Auto disable wrapper
-            if (self.settings.type === 'button' && self.elements.container.is('input, img')) {
+            if (self.settings.type === 'button' && self.getContainer().is('input, img')) {
                 self.settings.wrapper = false;
             }
 
@@ -79,7 +82,7 @@
         /**
          * Permet de définir de nouvelles options
          *
-         * @param object options Liste des options à modifier
+         * @param options (object) Liste des options à modifier
          */
         setOptions: function (options) {
             $.extend(true, this.settings, options);
@@ -89,12 +92,30 @@
         },
 
         /**
+         * Défini un conteneur dans lequel sera affiché le spinner
+         *
+         * @param container (jQuery object) Conteneur
+         */
+        setContainer: function (container) {
+            this.elements.container = container;
+        },
+
+        /**
+         * Récupère le conteneneur courant
+         *
+         * @return jQuery object
+         */
+        getContainer: function () {
+            return this.elements.container;
+        },
+
+        /**
          * Initialisation
          */
         init: function () {
             // Si c'est pas déjà initialisé
-            if (!this.elements.container.hasClass(this.settings.classes.prefix)) {
-                this.elements.container.addClass(this.settings.classes.prefix + ' ' + this.settings.classes.prefix + '--' + this.settings.type + ' ' + (this.settings.spinner ? this.settings.classes.spinner : ''));
+            if (!this.getContainer().hasClass(this.settings.classes.prefix)) {
+                this.getContainer().addClass(this.settings.classes.prefix + ' ' + this.settings.classes.prefix + '--' + this.settings.type + ' ' + (this.settings.spinner ? this.settings.classes.spinner : ''));
 
                 // Wrapper
                 this.elements.wrapper = $('<' + (this.settings.type === 'button' ? 'span' : 'div') + '>', {
@@ -149,8 +170,8 @@
             var self = this;
 
             // Container
-            self.elements.container.removeClass(function () {
-                var classes = self.elements.container.attr('class').split(' ');
+            self.getContainer().removeClass(function () {
+                var classes = self.getContainer().attr('class').split(' ');
                 var list = null;
 
                 if (classes.length) {
@@ -166,8 +187,8 @@
                 }
             });
 
-            if (self.elements.container.attr('class').length === 0) {
-                self.elements.container.removeAttr('class');
+            if (self.getContainer().attr('class').length === 0) {
+                self.getContainer().removeAttr('class');
             }
 
             // Wrapper
@@ -212,7 +233,7 @@
             }
 
             // Insertion
-            this.elements.wrapper[(this.settings.type === 'overlay') ? 'appendTo' : 'prependTo'](this.elements.container);
+            this.elements.wrapper[(this.settings.type === 'overlay') ? 'appendTo' : 'prependTo'](this.getContainer());
             this.elements.wrapperInner.appendTo(this.elements.wrapper);
             if (this.elements.text !== undefined) {
                 this.elements.text.appendTo(this.elements.wrapperInner);
@@ -224,17 +245,16 @@
         /**
          * Affiche le spinner
          *
-         * @param function complete Fonction executée une fois le spinner
-         *     affiché
+         * @param complete (function) Fonction executée une fois le spinner affiché
          */
         show: function (complete) {
-            this.elements.container.addClass(this.settings.classes.loading);
+            this.getContainer().addClass(this.settings.classes.loading);
 
             // Le contenu de l'élement est remplacé par le paramètre "text"
             if (this.settings.type === 'button' && this.settings.text !== null) {
                 this.elements.wrapper.remove();
-                this.elements.buttontext = this.elements.container.html();
-                this.elements.container.text(this.settings.text);
+                this.elements.buttontext = this.getContainer().html();
+                this.getContainer().text(this.settings.text);
                 if (this.settings.wrapper) {
                     this.wrap();
                 }
@@ -244,7 +264,7 @@
             if (this.settings.onShow !== undefined) {
                 this.settings.onShow.call({
                     spinner: this,
-                    container: this.elements.container
+                    container: this.getContainer()
                 });
             }
 
@@ -252,12 +272,12 @@
             if (complete !== undefined) {
                 complete.call({
                     spinner: this,
-                    container: this.elements.container
+                    container: this.getContainer()
                 });
             }
 
             // Timeout
-            this.setTimeout();
+            this.addTimeout();
 
             return this;
         },
@@ -265,19 +285,20 @@
         /**
          * Masque le spinner
          *
-         * @param function complete Fonction executée une fois le spinner masqué
+         * @param complete (function) Fonction executée une fois le spinner masqué
          */
         hide: function (complete) {
             var self = this;
-            clearTimeout(self.timeout);
+            clearTimeout(self.timeout.min);
+            clearTimeout(self.timeout.max);
 
             // Minimum timeout
-            setTimeout(function () {
-                self.elements.container.removeClass(self.settings.classes.loading);
+            self.timeout.min = setTimeout(function () {
+                self.getContainer().removeClass(self.settings.classes.loading);
 
                 // Le contenu de l'élement est remis à l'état initial
                 if (self.settings.type === 'button' && self.settings.text !== null && self.elements.buttontext !== undefined) {
-                    self.elements.container.html(self.elements.buttontext);
+                    self.getContainer().html(self.elements.buttontext);
                     if (self.settings.wrapper) {
                         self.wrap();
                     }
@@ -287,7 +308,7 @@
                 if (self.settings.onHide !== undefined) {
                     self.settings.onHide.call({
                         spinner: self,
-                        container: self.elements.container
+                        container: self.getContainer()
                     });
                 }
 
@@ -295,7 +316,7 @@
                 if (complete !== undefined) {
                     complete.call({
                         spinner: self,
-                        container: self.elements.container
+                        container: self.getContainer()
                     });
                 }
             }, self.settings.minTimeout);
@@ -304,14 +325,13 @@
         },
 
         /**
-         * Ajoute un timeout à l'affichage du spinner pour le masquer
-         * automatiquement
+         * Ajoute un timeout à l'affichage du spinner pour le masquer automatiquement
          */
-        setTimeout: function () {
+        addTimeout: function () {
             var self = this;
 
             if (self.settings.maxTimeout !== undefined && self.settings.maxTimeout > 0) {
-                self.timeout = setTimeout(function () {
+                self.timeout.max = setTimeout(function () {
                     self.hide();
                 }, self.settings.maxTimeout);
             }
