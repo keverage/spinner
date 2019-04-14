@@ -65,6 +65,7 @@ Sauf pour certaines urls :
     var spinner = $('#container').spinner({
         auto: true,
         autoPathsExceptions: [
-            '/system-path-no-spinner'
+            '/system-path-no-spinner',
+            'spinner=0'
         ]
     });
