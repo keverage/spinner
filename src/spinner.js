@@ -153,10 +153,6 @@
 
                     if (self.settings.autoPathsExceptions.length) {
                         $.each(self.settings.autoPathsExceptions, function (index, path) {
-                            if (ajaxOptions.type === 'POST' && ajaxOptions.data !== undefined && ajaxOptions.data !== '') {
-                                ajaxOptions.url += '?' + ajaxOptions.data;
-                            }
-
                             if (ajaxOptions.url.indexOf(path) !== -1) {
                                 toShow = false;
                             }
