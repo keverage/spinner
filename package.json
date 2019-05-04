@@ -1,8 +1,11 @@
 {
-  "name": "spinner",
+  "name": "@kevinbaubet/spinner",
   "version": "2.3.2",
   "main": "./dist/spinner.min.js",
-  "repository": "https://github.com/kevinbaubet/spinner.git",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kevinbaubet/spinner.git"
+  },
   "author": "Kévin Baubet <contact@kevinbaubet.fr>",
   "license": "MIT",
   "dependencies": {
